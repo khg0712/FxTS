@@ -25,7 +25,7 @@ function* sync<A, B>(f: (a: A) => B, iterable: Iterable<A>) {
 }
 
 async function* asyncSequential<A, B>(
-  f: (a: A) => B,
+  f: (a: A) => B | Promise<B>,
   iterable: AsyncIterable<A>,
 ) {
   const iterator = iterable[Symbol.asyncIterator]();
@@ -43,7 +43,7 @@ async function* asyncSequential<A, B>(
 }
 
 function async<A, B>(
-  f: (a: A) => B,
+  f: (a: A) => B | Promise<B>,
   iterable: AsyncIterable<A>,
 ): AsyncIterableIterator<A> {
   let iterator: AsyncIterator<A>;
@@ -115,16 +115,16 @@ function dropUntil<A, B = unknown>(
 ): IterableIterator<A>;
 
 function dropUntil<A, B = unknown>(
-  f: (a: A) => B,
+  f: (a: A) => B | Promise<B>,
   iterable: AsyncIterable<A>,
 ): AsyncIterableIterator<A>;
 
 function dropUntil<A extends Iterable<unknown> | AsyncIterable<unknown>, B>(
-  f: (a: IterableInfer<A>) => B,
+  f: (a: IterableInfer<A>) => B | Promise<B>,
 ): (iterable: A) => ReturnIterableIteratorType<A>;
 
 function dropUntil<A extends Iterable<unknown> | AsyncIterable<unknown>, B>(
-  f: (a: IterableInfer<A>) => B,
+  f: (a: IterableInfer<A>) => B | Promise<B>,
   iterable?: A,
 ):
   | IterableIterator<IterableInfer<A>>
